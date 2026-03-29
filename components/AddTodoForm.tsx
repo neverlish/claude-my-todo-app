@@ -16,16 +16,16 @@ export default function AddTodoForm({ onAdd }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
+    <form onSubmit={handleSubmit} className="flex gap-3 mb-8">
       <input
         name="title"
         type="text"
         placeholder="할 일을 입력하세요"
-        className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex-1 bg-white border-2 border-slate-200 rounded-2xl px-6 py-4 text-lg focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-slate-300"
       />
       <button
         type="submit"
-        className="bg-blue-500 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
+        className="bg-indigo-600 text-white px-8 py-4 rounded-2xl text-lg font-bold hover:bg-indigo-700 active:scale-95 transition-all shrink-0"
       >
         추가
       </button>

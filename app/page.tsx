@@ -36,9 +36,10 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-lg mx-auto px-4">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">나의 할 일</h1>
+    <main className="min-h-screen bg-slate-100 py-16 px-4">
+      <div className="max-w-2xl mx-auto">
+        <h1 className="text-6xl font-black text-slate-900 mb-2 tracking-tight">나의 할 일</h1>
+        <p className="text-slate-400 text-lg mb-10">오늘 할 일을 추가해보세요.</p>
         <AddTodoForm onAdd={handleAdd} />
         <TodoList todos={todos} onToggle={handleToggle} onDelete={handleDelete} />
       </div>

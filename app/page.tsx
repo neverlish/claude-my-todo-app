@@ -11,8 +11,9 @@ export default function Home() {
 
   useEffect(() => {
     pb.collection('todos')
-      .getFullList<Todo>({ sort: '-created' })
-      .then(setTodos);
+      .getFullList<Todo>({ sort: '-created_at', perPage: 500, requestKey: null })
+      .then(setTodos)
+      .catch(console.error);
   }, []);
 
   const handleAdd = async (title: string) => {

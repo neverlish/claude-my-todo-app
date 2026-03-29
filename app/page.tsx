@@ -1,31 +1,36 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Todo } from '@/types/todo';
 import AddTodoForm from '@/components/AddTodoForm';
 import TodoList from '@/components/TodoList';
+import pb from '@/lib/pocketbase';
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
 
-  const handleAdd = (title: string) => {
-    const newTodo: Todo = {
-      id: crypto.randomUUID(),
-      title,
-      is_completed: false,
-      created: new Date().toISOString(),
-      updated: new Date().toISOString(),
-    };
-    setTodos((prev) => [newTodo, ...prev]);
+  useEffect(() => {
+    pb.collection('todos')
+      .getFullList<Todo>({ sort: '-created' })
+      .then(setTodos);
+  }, []);
+
+  const handleAdd = async (title: string) => {
+    const created = await pb.collection('todos').create<Todo>({ title, is_completed: false });
+    setTodos((prev) => [created, ...prev]);
   };
 
-  const handleToggle = (id: string) => {
-    setTodos((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, is_completed: !t.is_completed } : t))
-    );
+  const handleToggle = async (id: string) => {
+    const target = todos.find((t) => t.id === id);
+    if (!target) return;
+    const updated = await pb
+      .collection('todos')
+      .update<Todo>(id, { is_completed: !target.is_completed });
+    setTodos((prev) => prev.map((t) => (t.id === id ? updated : t)));
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
+    await pb.collection('todos').delete(id);
     setTodos((prev) => prev.filter((t) => t.id !== id));
   };
 
